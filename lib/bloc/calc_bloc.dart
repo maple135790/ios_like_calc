@@ -7,13 +7,24 @@ class CalcBloc extends Bloc<CalcEvent, CalcState> {
   String stored = '';
 
   CalcBloc() : super(CalcInitial()) {
-    num sub(String n) {
-      num r = num.parse(stored) - num.parse(n);
+    String sub(String n) {
+      String r = (num.parse(stored) - num.parse(n)).toString();
       return r;
     }
 
-    num add(String n) {
-      num r = num.parse(stored) + num.parse(n);
+    String add(String n) {
+      String r = (num.parse(stored) + num.parse(n)).toString();
+      return r;
+    }
+
+    String multi(String n) {
+      String r = (num.parse(stored) * num.parse(n)).toString();
+      return r;
+    }
+
+    String div(String n) {
+      String r =
+          n == '0' ? 'Error' : (num.parse(stored) / num.parse(n)).toString();
       return r;
     }
 
@@ -33,11 +44,16 @@ class CalcBloc extends Bloc<CalcEvent, CalcState> {
       return emit(CalcResult.clearWith(event.input.toString()));
     });
     on<Calculation>((event, emit) {
-      num result = 0;
+      String result = '0';
+      if (stored == 'Error') return emit(CalcResult.clearWith('Error'));
       if (event.op == '-') {
         result = sub(event.num);
       } else if (event.op == '+') {
         result = add(event.num);
+      } else if (event.op == '*') {
+        result = multi(event.num);
+      } else if (event.op == '/') {
+        result = div(event.num);
       }
       stored = result.toString();
       return emit(CalcResult.clearWith(result.toString()));

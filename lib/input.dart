@@ -98,8 +98,8 @@ class _InputState extends State<Input> {
                 },
               ),
               opBtn('+/-', isEnabled: false),
-              opBtn('/', isEnabled: false),
-              opBtn('x', isEnabled: false)
+              opBtn('/'),
+              opBtn('*')
             ],
           ),
           Row(
